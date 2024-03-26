@@ -1,6 +1,9 @@
+-- ver. 2
+
 local utils = require("mp.utils")
 local msg = require ("mp.msg")
 local options = require ("mp.options")
+local input = require ("mp.input")
 
 local o = {
     -- Specifies the name of the chapters
@@ -20,6 +23,7 @@ local o = {
 	-- Sets keybinds for functions
 	create_keybind = "C",
 	remove_keybind = "X",
+	title_keybind = "E",
 	write_keybind = "B",
 	insert_keybind = "N",
 }
@@ -78,6 +82,44 @@ local function remove_chapter()
     msg.debug("Removing chapter", curr_chapter)
 
     mp.set_property_native("chapter-list", all_chapters)
+	mp.command("seek 0 exact")
+end
+
+local function input_title(title, curr_chapter)
+    input.get({
+        prompt = 'Chapter title:',
+        default_text = title,
+        submit = function(text)
+            local all_chapters = mp.get_property_native("chapter-list")
+            all_chapters[curr_chapter].title = text
+            mp.set_property_native("chapter-list", all_chapters)
+            input.terminate()
+        end
+    })
+end
+
+local function edit_title()
+    if not input then
+        msg.error("Update mpv to get user input function")
+        return
+    end
+	
+    local chapter_count = mp.get_property_number("chapter-list/count")
+
+    if chapter_count < 1 then
+        msg.verbose("No chapters to edit")
+        return
+    end
+	
+    local curr_chapter = mp.get_property_number("chapter") + 1
+    local all_chapters = mp.get_property_native("chapter-list")
+	if curr_chapter < 1 then
+        msg.verbose("No chapter selected")
+        return
+    end
+	
+	local title = all_chapters[curr_chapter].title
+    input_title(title, curr_chapter)
 end
 
 local function format_time(seconds)
@@ -103,7 +145,7 @@ local function write_chapters()
 	local mkv_time = ""
 	
     if chapter_count == 0 then
-        msg.debug("No chapters to write")
+        msg.verbose("No chapters to write")
         return
     end
 	
@@ -208,5 +250,6 @@ mp.register_event("end-file", glb_var)
 
 mp.add_key_binding(o.create_keybind, "create_chapter", create_chapter, {repeatable=true})
 mp.add_key_binding(o.remove_keybind, "remove_chapter", remove_chapter, {repeatable=true})
+mp.add_key_binding(o.title_keybind, "edit_title", edit_title, {repeatable=true})
 mp.add_key_binding(o.write_keybind, "write_chapters", write_chapters, {repeatable=false})
 mp.add_key_binding(o.insert_keybind, "insert_matroska", insert_matroska, {repeatable=false})
