@@ -9,7 +9,8 @@ This script was created based entirely on [mpv-createchapter](https://github.com
 * prevented the creation of an empty chapter file
 * standardized the xml output according to matroskachapters.dtd and uniformed the spacing
 * added chapter remove function
-* added function to insert chapter file into mkv file
+* added chapter rename function (mp.input)
+* added function to insert chapter file into mkv file (mkvpropedit)
 * added config file to customize:
 	* chapters name
 	* chapters language
@@ -23,6 +24,7 @@ Place the [`createchapter_mod.lua`](https://github.com/Lc4B/mpv-createchapter_mo
 ## Keybind
 `Shift-c` - Mark chapters  
 `Shift-x` - Remove chapters  
+`Shift-e` - Rename chapter  
 `Shift-b` - Export xml file  
 `Shift-n` - Insert xml into mkv  
 
