@@ -19,7 +19,7 @@ This script was created based entirely on [mpv-createchapter](https://github.com
 	* (...)
 
 ## Usage
-Place the [`createchapter_mod.lua`](https://github.com/Lc4B/mpv-createchapter_mod/raw/master/createchapter_mod.lua) file into mpv `scripts` folder and the [`createchapter_mod.conf`](https://github.com/Lc4B/mpv-createchapter_mod/raw/master/createchapter_mod.conf) file into mpv `script-opts` folder.
+Place the [`createchapter_mod.lua`](https://github.com/Lc4B/mpv-createchapter_mod/blob/main/createchapter_mod.lua) file into mpv `scripts` folder and the [`createchapter_mod.conf`](https://github.com/Lc4B/mpv-createchapter_mod/blob/main/createchapter_mod.conf) file into mpv `script-opts` folder.
 
 ## Keybind
 `Shift-c` - Mark chapters  
